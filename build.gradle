@@ -1,0 +1,22 @@
+apply plugin: 'idea'
+
+buildscript {
+  repositories() {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.yodle.griddle:griddle:1.7'
+  }
+}
+
+subprojects {
+  repositories {
+    mavenCentral()
+    maven { url 'http://maven.twttr.com' }
+  }
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion '3.2.1'
+  distributionUrl 'https://services.gradle.org/distributions/gradle-3.2.1-all.zip'
+}

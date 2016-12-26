@@ -1,0 +1,28 @@
+apply plugin: 'scala'
+apply plugin: 'scrooge'
+
+task movethrift << {
+  ant.move(
+          todir: "${rootProject}/shop-thrift/shop-scrooge/src",
+          overwrite: true
+  ) {
+    fileset(dir: "${rootProject}/shop-thrift/shop-scrooge/build/gen-src/")
+  }
+}
+
+dependencies {
+  idl project.getParent()
+  scroogeGen "com.twitter:scrooge-generator_2.11:4.3.0"
+
+  compile "org.scala-lang:scala-library:2.11.7"
+  compile "com.twitter:scrooge-runtime_2.11:4.3.0"
+  compile "org.apache.thrift:libthrift:0.5.0"
+  
+  movethrift
+}
+
+
+repositories {
+  mavenCentral()
+  maven { url "http://maven.twttr.com" }
+}
