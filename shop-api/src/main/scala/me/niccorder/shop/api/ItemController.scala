@@ -1,18 +1,24 @@
 package me.niccorder.shop.api
 
-import com.google.inject.Inject
-import com.twitter.finagle.http.Request
-import com.twitter.finatra.http.Controller
-import me.niccorder.shop.{Item, ItemDatastore}
+import com.twitter.finagle.Service
+import com.twitter.finatra.thrift.Controller
+import com.twitter.util.{Await, Future}
+import me.niccorder.shop.ItemDatastore
+import me.niccorder.shop.ItemDatastore.{CreateItem, DeleteItem, GetItem}
 
 
-class ItemController @Inject()(
-  itemDatastore: ItemDatastore.FutureIface
-) extends Controller {
+class ItemController extends Controller with ItemDatastore.BaseServiceIface {
 
-  get("/item/:id") { req: Request =>
-    val item: Item = itemDatastore.getItem(req.getIntParam("id")).asInstanceOf
-
-    response.ok("{ hello: \"world\"")
+  override val createItem = handle(CreateItem) { args: CreateItem.Args =>
+    Await.result(Future.exception(new Exception))
   }
+
+  override val deleteItem = handle(DeleteItem) { args: DeleteItem.Args =>
+    Await.result(Future.exception(new Exception))
+  }
+
+  override val getItem = handle(GetItem) { args: GetItem.Args =>
+    Await.result(Future.exception(new Exception))
+  }
+
 }

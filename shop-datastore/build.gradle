@@ -3,19 +3,25 @@ apply plugin: 'scala'
 apply plugin: 'application'
 
 mainClassName = 'me.niccorder.shop.datastore.ItemDatastore'
+jar {
+  manifest {
+    attributes 'Main-Class': mainClassName,
+        'Implementation-Title': 'Item datastore service.'
+  }
+}
 
 repositories {
   mavenCentral()
 }
 
 dependencies {
-  compile 'org.scala-lang:scala-library:2.11.1'
-  compile group: 'com.twitter', name: 'util-stats_2.11', version: '6.30.0'
+  compile 'org.scala-lang:scala-library:2.11.8'
+  compile group: 'com.twitter', name: 'util-stats_2.11', version: '6.31.0'
   compile group: 'com.twitter', name: 'finagle-mysql_2.11', version: '6.31.0'
   compile group: 'com.twitter', name: 'finagle-redis_2.11', version: '6.31.0'
-  compile group: 'com.twitter.finatra', name: 'finatra-thrift_2.11', version: '2.1.6'
+  compile group: 'com.twitter', name: 'finatra-thrift_2.11', version: '2.7.0'
 
-  compile project(':shop-server:shop-thrift:shop-scrooge')
+  compile project(':shop-thrift:shop-scrooge')
 
   testCompile group: 'junit', name: 'junit', version: '4.12'
   testCompile "org.mockito:mockito-core:1.+"

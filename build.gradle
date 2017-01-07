@@ -17,6 +17,5 @@ subprojects {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion '3.2.1'
-  distributionUrl 'https://services.gradle.org/distributions/gradle-3.2.1-all.zip'
+  gradleVersion '3.0'
 }

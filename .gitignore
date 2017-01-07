@@ -6,6 +6,8 @@
 /captures
 .externalNativeBuild
 
+projectFilesBackup
+
 **/.idea
 **/*.ipr
 **/*.iws
