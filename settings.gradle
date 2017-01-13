@@ -1,5 +1,4 @@
 include ':shop-api'
-include ':shop-server'
 include ':shop-datastore'
 include ':shop-util'
 include ':shop-thrift'

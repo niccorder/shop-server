@@ -2,7 +2,8 @@ apply plugin: 'idea'
 apply plugin: 'scala'
 apply plugin: 'application'
 
-mainClassName = 'me.niccorder.shop.datastore.ItemDatastore'
+mainClassName = 'me.niccorder.shop.datastore.ItemDatastoreServerMain'
+
 jar {
   manifest {
     attributes 'Main-Class': mainClassName,
@@ -15,7 +16,6 @@ repositories {
 }
 
 dependencies {
-  compile 'org.scala-lang:scala-library:2.11.8'
   compile group: 'com.twitter', name: 'util-stats_2.11', version: '6.31.0'
   compile group: 'com.twitter', name: 'finagle-mysql_2.11', version: '6.31.0'
   compile group: 'com.twitter', name: 'finagle-redis_2.11', version: '6.31.0'

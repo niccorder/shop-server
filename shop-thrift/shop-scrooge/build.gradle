@@ -1,4 +1,5 @@
 apply plugin: 'scrooge'
+apply plugin: 'idea'
 
 task movethrift << {
   ant.move(
@@ -13,7 +14,7 @@ dependencies {
   idl project.getParent()
   scroogeGen "com.twitter:scrooge-generator_2.11:4.5.0"
 
-  compile "org.scala-lang:scala-library:2.11.7"
+  compile "org.scala-lang:scala-library:2.11.8"
   compile "com.twitter:scrooge-runtime_2.11:4.5.0"
   compile "org.apache.thrift:libthrift:0.7.0"
   

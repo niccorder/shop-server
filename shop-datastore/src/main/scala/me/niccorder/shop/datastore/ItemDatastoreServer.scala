@@ -1,25 +1,27 @@
 package me.niccorder.shop.datastore
 
-import java.io.File
-
-import com.twitter.finagle.{Dtab, ListeningServer, Thrift}
-import com.twitter.server.TwitterServer
-import com.twitter.util.Await
-import me.niccorder.shop.ItemDatastore
+import com.twitter.finatra.thrift.ThriftServer
+import com.twitter.finatra.thrift.filters._
+import com.twitter.finatra.thrift.routing.ThriftRouter
+import com.twitter.inject.annotations.Lifecycle
 
 object ItemDatastoreServerMain extends ItemDatastoreServer
 
-class ItemDatastoreServer extends TwitterServer {
+class ItemDatastoreServer extends ThriftServer {
 
-  implicit val serviceDest = flag("service.dest", "/s/item-datastore", "The item datastores path")
+  override val name = "item-datastore-server"
 
-  override val name: String = "Item Datastore"
-
-  def startService(): Unit = {
-    log.debug("Starting service--------")
-
-    Thrift.newServiceIface[ItemDatastore.ServiceIface](serviceDest.apply, "item-datastore-service")
+  override def configureThrift(router: ThriftRouter) {
+    router
+      .filter[LoggingMDCFilter]
+      .filter[TraceIdMDCFilter]
+      .filter[ThriftMDCFilter]
+      .filter[AccessLoggingFilter]
+      .filter[StatsFilter]
+      .filter[ExceptionTranslationFilter]
+      .add[ItemDatastoreController]
   }
 
-  startService()
+  @Lifecycle protected override
+  def postWarmup(): Unit = super.postWarmup()
 }
