@@ -16,9 +16,9 @@ repositories {
 }
 
 dependencies {
-  compile group: 'com.twitter', name: 'util-stats_2.11', version: '6.31.0'
-  compile group: 'com.twitter', name: 'finagle-mysql_2.11', version: '6.31.0'
-  compile group: 'com.twitter', name: 'finagle-redis_2.11', version: '6.31.0'
+  compile group: 'com.twitter', name: 'util-stats_2.11', version: '6.34.0'
+  compile group: 'com.twitter', name: 'finagle-mysql_2.11', version: '6.34.0'
+  compile group: 'com.twitter', name: 'finagle-redis_2.11', version: '6.34.0'
   compile group: 'com.twitter', name: 'finatra-thrift_2.11', version: '2.7.0'
 
   compile project(':shop-thrift:shop-scrooge')
@@ -26,5 +26,5 @@ dependencies {
   testCompile group: 'junit', name: 'junit', version: '4.12'
   testCompile "org.mockito:mockito-core:1.+"
 
-  runtime group: 'com.twitter', name: 'finagle-stats_2.11', version: '6.31.0'
+  runtime group: 'com.twitter', name: 'finagle-stats_2.11', version: '6.41.0'
 }

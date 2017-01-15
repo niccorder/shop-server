@@ -3,8 +3,10 @@ package me.niccorder.shop.api
 import java.net.InetSocketAddress
 
 import com.google.inject.{Provides, Singleton}
-import com.twitter.finagle.Thrift
+import com.twitter.finagle.{Thrift, ThriftMux}
 import com.twitter.finagle.http.{Request, Response}
+import com.twitter.finagle.thrift.ClientId
+import com.twitter.finagle.tracing.DefaultTracer
 import com.twitter.finatra.http.filters.{LoggingMDCFilter, TraceIdMDCFilter}
 import com.twitter.inject.TwitterModule
 import me.niccorder.shop.ItemDatastore
@@ -40,10 +42,14 @@ object ItemModule extends TwitterModule {
     debug("providing ItemDatastore.FutureIface")
 
     ItemDatastoreClient(
-      Thrift.client.newServiceIface[ItemDatastore.FutureIface](
-        itemDatastoreDestFlag.apply,
-        itemDatastoreStatsFlag.apply
-      )
+      ThriftMux.client
+        .withLabel("item-datastore-client")
+        .withTracer(DefaultTracer)
+        .withClientId(ClientId.apply("item-datastore-client"))
+        .newIface[ItemDatastore.FutureIface](
+          itemDatastoreDestFlag.apply,
+          itemDatastoreStatsFlag.apply
+        )
     )
   }
 }

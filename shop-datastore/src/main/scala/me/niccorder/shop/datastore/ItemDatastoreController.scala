@@ -7,22 +7,29 @@ import me.niccorder.shop.ItemDatastore.{CreateItem, DeleteItem, GetItem}
 import javax.inject.Singleton
 
 @Singleton
-class ItemDatastoreController extends Controller with ItemDatastore.BaseServiceIface {
+class ItemDatastoreController
+    extends Controller
+    with ItemDatastore.BaseServiceIface {
 
-  val memoryStore: Map[String, Item] = Map()
+  val memoryStore: Map[Int, Item] = Map.empty
 
   override val createItem = handle(CreateItem) { args =>
     Future.apply {
-      memoryStore + (args.item.itemId -> args.item)
+      memoryStore + (args.item.itemId.toInt -> args.item)
       args.item.itemId
     }
   }
 
   override val deleteItem = handle(DeleteItem) { args =>
-    Future.exception(new NotImplementedError)
+    Future.apply {
+      memoryStore - args.id
+      args.id.toString
+    }
   }
 
   override val getItem = handle(GetItem) { args =>
-    Future.exception(new NotImplementedError)
+    Future.apply {
+      memoryStore.apply(args.id)
+    }
   }
 }
