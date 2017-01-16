@@ -10,6 +10,7 @@ import com.twitter.finagle.tracing.DefaultTracer
 import com.twitter.finatra.http.filters.{LoggingMDCFilter, TraceIdMDCFilter}
 import com.twitter.inject.TwitterModule
 import me.niccorder.shop.ItemDatastore
+import me.niccorder.shop.api.model.InMemoryItemDatastore
 
 @Singleton
 object ItemModule extends TwitterModule {
@@ -38,18 +39,9 @@ object ItemModule extends TwitterModule {
 
   @Provides
   @Singleton
-  def provideItemDatastoreClient(): ItemDatastoreClient = {
+  def provideItemDatastoreClient(): InMemoryItemDatastore = {
     debug("providing ItemDatastore.FutureIface")
 
-    ItemDatastoreClient(
-      ThriftMux.client
-        .withLabel("item-datastore-client")
-        .withTracer(DefaultTracer)
-        .withClientId(ClientId.apply("item-datastore-client"))
-        .newIface[ItemDatastore.FutureIface](
-          itemDatastoreDestFlag.apply,
-          itemDatastoreStatsFlag.apply
-        )
-    )
+    new InMemoryItemDatastore
   }
 }
